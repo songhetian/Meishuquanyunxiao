@@ -1,0 +1,26 @@
+﻿html { overflow-y:scroll; overflow-x:auto; }
+body { margin:0; color:#aaa; font:12px/21px simsun; }
+.head { width:970px; margin:0 auto; padding:20px 0 25px; }
+.logo { font:16px/24px "å¾®è½¯é›…é»‘"; color:#000; }
+.logo img { vertical-align:text-bottom; margin:0 10px -8px 0; position:relative;max-height:50px; }
+.head_link { float:right; margin-top:-21px; line-height:21px; }
+ul, ol, li, dl, dd, dt, p, h1, h2, h3, form, input { margin:0; padding:0; }
+.main { width:70%; margin:0 auto; }
+.mainC { padding:50px 0 140px; text-align:center; }
+.mainC h2 { font:20px/30px å¾®è½¯é›…é»‘; padding-bottom:40px; color:#000; }
+.mainC1 { padding:30px 0 60px; text-align:center; }
+.mainC1 strong { font:20px/30px å¾®è½¯é›…é»‘; color:#000; }
+.mainC2 { padding:0 25px 0 70px; border-top:1px solid #f2f2f2; margin:0 25px; }
+.mainC2 h2 { font:14px/60px simsun; }
+.mainC2 p { width:380px; float:left; padding-right:55px; }
+.mainC2 p img { float:left; padding:2px; border:1px solid #e6e6e6; margin-right:10px; }
+.mainC2 p strong { font:14px/23px simsun; display:inline-block; margin-top:-2px; }
+.spanC { zoom:1; overflow:hidden; display:block; }
+.mainC2 p .spanC { width:295px; float:right; }
+.mainC3 { color:#000; }
+.mainC3 h1 { font:18px/30px å¾®è½¯é›…é»‘; border-bottom:1px solid #e6e6e6; margin:25px 0 45px; }
+.mainC3 p { margin:0 20px; }
+.mainC3 .pbtn { padding:50px; text-align:center; }
+.footer { line-height:20px; text-align:center; padding:20px 0 40px; margin-top:15px;  clear:both; }
+.footer, .footer a { color:#6b6b6b; }
+.footer a:hover { color:#4c7d08; }

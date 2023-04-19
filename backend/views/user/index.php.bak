@@ -1,0 +1,286 @@
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+use backend\models\Rbac;
+use common\grid\EnumColumn;
+use common\models\User;
+use common\models\Format;
+use components\Oss;
+use components\Datetime; 
+
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\AdminSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+?>
+<div id="content" class="col-md-12">
+    <div class="pageheader"> 
+        <h2><i class="fa fa-user"></i> <?= Yii::t('backend', 'Users') ?> </h2> 
+        <div class="breadcrumbs"> 
+            <ol class="breadcrumb"> 
+                <li>当前位置</li>   
+                <li class="active">
+                    <?= Yii::t('backend', 'User Management') ?>
+                </li> 
+                <li class="active">
+                    <?= Html::a(Yii::t('backend', 'Users'), ['index']) ?>
+                </li> 
+            </ol>
+        </div> 
+    </div> 
+    <div class="main">
+        <div class="row">
+          <div class="col-md-12">
+            <section class="tile color transparent-black">
+              <div class="tile-body color transparent-black rounded-corners">
+                <p>
+                    <?php if(Yii::$app->user->can(Yii::$app->controller->id . '/create')) : ?>
+                        <?= Html::a(Yii::t('backend', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+                    <?php endif; ?>
+                    <?php if(Yii::$app->user->can(Yii::$app->controller->id.'/export')): ?>
+                     <?= Html::a(Yii::t('backend', 'Export User'), ['export'], ['class' => 'btn btn-success']) ?>
+                    <?php endif; ?>
+                </p>
+
+                <?php Pjax::begin(); ?>    
+                    <?= GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'filterModel' => $searchModel,
+                        'columns' => [
+                            ['class' => 'yii\grid\SerialColumn'],
+                            //'id',
+                            'student_id',
+                            [
+                                'label' => '所属校区',
+                                'attribute' => 'campus_name',
+                                'value' => 'campuses.name',
+                            ],
+                            [
+                                'label' => '所在班级',
+                                'attribute' => 'class_name',
+                                'value' => 'classes.name',
+                            ],
+                            'name',
+                            'phone_number',
+                            'exam_participant_number',
+                            /*
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'gender',
+                                'filter' => User::getValues('gender'),
+                                'enum' => User::getValues('gender')
+                            ],
+                            */
+                            // 'national_id',
+                            // 'family_member_name',
+                            /*
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'relationship',
+                                'filter' => User::getValues('relationship'),
+                                'enum' => User::getValues('relationship')
+                            ],
+                            */
+                            // 'organization',
+                            // 'position',
+                            // 'contact_phone',
+                            /*
+                            [
+                                'label' => '民族',
+                                'attribute' => 'race_name',
+                                'value' => 'races.name',
+                                
+                            ],
+                            */
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'student_type',
+                                'filter' => User::getValues('student_type'),
+                                'enum' => User::getValues('student_type')
+                            ],
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'career_pursuit_type',
+                                'filter' => User::getValues('career_pursuit_type'),
+                                'enum' => User::getValues('career_pursuit_type')
+                            ],
+                            /*
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'residence_type',
+                                'filter' => User::getValues('residence_type'),
+                                'enum' => User::getValues('residence_type')
+                            ],
+                            */
+                            // 'grade',
+                            /*
+                            [
+                                'label' => '省',
+                                'attribute' => 'province_name',
+                                'value' => 'provinces.name',
+                                
+                            ],
+                            [
+                                'label' => '市',
+                                'attribute' => 'city_name',
+                                'value' => 'citys.name',
+                                
+                            ],
+                            */
+                            // 'detailed_address',
+                            // 'qq_number',
+                            // 'school_name',
+                            /*
+                            [
+                                'label' => '联考省份',
+                                'attribute' => 'united_exam_province_name',
+                                'value' => 'unitedExamProvinces.name',
+                                
+                            ],
+                            */
+                            // 'fine_art_instructor',
+                            // 'sketch_score',
+                            // 'color_score',
+                            // 'quick_sketch_score',
+                            // 'design_score',
+                            // 'verbal_score',
+                            // 'math_score',
+                            // 'english_score',
+                            // 'total_score',
+                            // 'pre_school_assessment:ntext',
+                            /*
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'is_graduation',
+                                'filter' => User::getValues('is_graduation'),
+                                'enum' => User::getValues('is_graduation')
+                            ],
+                            */
+                            // 'graduation_at',
+                            // 'note:ntext',
+                            // 'auth_key',
+                            // 'password_hash',
+                            // 'password_reset_token',
+                            // 'device_token',
+                            // 'access_token',
+                            [
+                                'label' => '创建者',
+                                'attribute' => 'admin_name',
+                                'value' => 'admins.name',
+                            ],
+                            [
+                                'attribute' => 'created_at',
+                                'value' => function ($model) {
+                                    return date('Y/m/d H:i:s', $model->created_at);
+                                },
+                                'filter' => Datetime::widget([ 
+                                    'name' => Format::getModelName($searchModel->className()).'[created_at]', 
+                                    'options' => [
+                                        'lang' => 'zh',
+                                        'timepicker' => false,
+                                        'format' => 'Y/m/d',
+                                    ]
+                                ]),
+                            ],
+                            [
+                                'attribute' => 'updated_at',
+                                'value' => function ($model) {
+                                    return date('Y/m/d H:i:s', $model->updated_at);
+                                },
+                                'filter' => Datetime::widget([ 
+                                    'name' => Format::getModelName($searchModel->className()).'[updated_at]', 
+                                    'options' => [
+                                        'lang' => 'zh',
+                                        'timepicker' => false,
+                                        'format' => 'Y/m/d',
+                                    ]
+                                ]),
+                            ],
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'is_all_visible',
+                                'filter' => User::getValues('is_all_visible'),
+                                'enum' => User::getValues('is_all_visible')
+                            ],
+                            [
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'is_review',
+                                'filter' => User::getValues('is_review'),
+                                'enum' => User::getValues('is_review')
+                            ],
+                            // 'status',
+                            [                        
+                                'class' => EnumColumn::className(),
+                                'attribute' => 'status',
+                                'filter' => User::getValues('status'),
+                                'enum' => User::getValues('status')
+                            ],
+                            [
+                                'class' => 'yii\grid\ActionColumn',
+                                'header' => '操作',
+                                'template' => Rbac::getTemplate(Yii::$app->controller->id, ['is-review', 'is-all-visible']),
+                                'headerOptions' => ['width' => '11%'],
+                                'buttons' => [
+                                    'is-all-visible' => function ($url, $model, $key) {
+                                        if($model->is_all_visible == $model::PARTIAL_VISIBLE){
+                                            return Html::a(
+                                              "<span class='fa fa-check'></span>",
+                                              ['is-all-visible', 'id' => $key], 
+                                              ['title'=>'全部可见', 'aria-label' => '全部可见', 'data-confirm' => '您确定设置为全部可见吗？', 'data-method' => 'post', 'data-pjax' => 0]
+                                            );
+                                        }else{
+                                            return Html::a(
+                                              "<span class='fa fa-times'></span>",
+                                              ['is-all-visible', 'id' => $key], 
+                                              ['title'=>'部分可见', 'aria-label' => '部分可见', 'data-confirm' => '您确定设置为部分可见吗？', 'data-method' => 'post', 'data-pjax' => 0]
+                                            );
+                                        }
+                                    },
+                                    'is-review' => function ($url, $model, $key) {
+                                        if($model->status == $model::STATUS_ACTIVE){
+                                            if($model->is_review == $model::REVIEW_NOT_YET){
+                                                if($model::isNumberOfReviewFull()){
+                                                    return Html::a(
+                                                      "<span class='fa fa-check'></span>",
+                                                      ['is-review', 'id' => $key], 
+                                                      ['title'=>'审核', 'aria-label' => '审核', 'data-confirm' => '您确定审核该用户吗？', 'data-method' => 'post', 'data-pjax' => 0]
+                                                    );
+                                                }
+                                            }else{
+                                                return Html::a(
+                                                  "<span class='fa fa-times'></span>",
+                                                  ['is-review', 'id' => $key], 
+                                                  ['title'=>'取消审核', 'aria-label' => '取消审核', 'data-confirm' => '您确定取消该审核吗？', 'data-method' => 'post', 'data-pjax' => 0]
+                                                );
+                                            }
+                                        }
+                                    },
+                                    'delete' => function ($url, $model, $key) {
+                                        if($model->status == $model::STATUS_ACTIVE){
+                                                return Html::a(
+                                                  "<span class='glyphicon glyphicon-trash'></span>",
+                                                  ['delete', 'id' => $key], 
+                                                  ['title'=>'删除', 'aria-label' => '删除', 'data-confirm' => '您确定要删除此项么？', 'data-method' => 'post', 'data-pjax' => 0]
+                                                );
+                                            }else{
+                                                if(Yii::$app->user->can(Yii::$app->controller->id.'/recovery')){
+                                                    return Html::a(
+                                                      "<span class='glyphicon glyphicon-cloud-upload'></span>",
+                                                      ['recovery', 'id' => $key], 
+                                                      ['title'=>'恢复', 'aria-label' => '恢复', 'data-confirm' => '您确定要恢复此项么？', 'data-method' => 'post', 'data-pjax' => 0]
+                                                    ); 
+                                                }
+                                        } 
+                                    },
+                                ],
+                            ],
+                        ],
+                    ]); ?>
+                <?php Pjax::end(); ?>
+              </div>
+            </section>
+          </div>
+        </div> 
+    </div>
+</div>

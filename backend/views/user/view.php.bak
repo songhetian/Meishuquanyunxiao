@@ -1,0 +1,151 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+use common\models\User;
+use common\models\City;
+use components\Oss;
+
+/* @var $this yii\web\View */
+/* @var $model backend\models\Admin */
+?>
+<div id="content" class="col-md-12">
+  <div class="pageheader">
+    <h2>
+      <i class="fa fa-user" style="line-height: 48px;padding-left: 1px;">
+      </i>
+      <?= Yii::t('backend', 'View User') ?>
+    </h2>
+    <div class="breadcrumbs">
+      <ol class="breadcrumb">
+        <li>
+          当前位置
+        </li>
+        <li class="active">
+          <?= Yii::t('backend', 'User Management') ?>
+        </li>
+        <li class="active">
+          <?= Html::a(Yii::t('backend', 'Users'), ['index']) ?>
+        </li> 
+        <li class="active">
+          <?= Yii::t('backend', 'View User') ?>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="main">
+    <div class="row">
+      <div class="col-md-6 view_width">
+        <section class="tile color transparent-black">
+          <div class="tile-body">
+            <p>
+                <?php if(Yii::$app->user->can(Yii::$app->controller->id . '/update')) : ?>
+                  <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?php endif; ?>
+                <?= Html::a(Yii::t('backend', 'Back'), ['index'], ['class' => 'btn btn-danger']) ?>
+            </p>
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    //'id',
+                    'student_id',
+                    [
+                        'label' => '所属校区',
+                        'attribute' => 'campuses.name'
+                    ],
+                    [
+                        'label' => '所在班级',
+                        'attribute' => 'classes.name'
+                    ],
+                    'name',
+                    [
+                        'attribute' => 'gender',
+                        'value' => User::getValues('gender', $model->gender)
+                    ],
+                    'national_id',
+                    'family_member_name',
+                    [
+                        'attribute' => 'relationship',
+                        'value' => User::getValues('relationship', $model->relationship)
+                    ],
+                    'organization',
+                    'position',
+                    'contact_phone',
+                    [
+                        'label' => '民族',
+                        'attribute' => 'races.name'
+                    ],
+                    [
+                        'attribute' => 'student_type',
+                        'value' => User::getValues('student_type', $model->student_type)
+                    ],
+                    [
+                        'attribute' => 'career_pursuit_type',
+                        'value' => User::getValues('career_pursuit_type', $model->career_pursuit_type)
+                    ],
+                    [
+                        'attribute' => 'residence_type',
+                        'value' => User::getValues('residence_type', $model->residence_type)
+                    ],
+                    'grade',
+                    [
+                        'label' => '省',
+                        'attribute' => 'provinces.name'
+                    ],
+                    [
+                        'label' => '市',
+                        'attribute' => 'citys.name'
+                    ],
+                    'detailed_address',
+                    'qq_number',
+                    'phone_number',
+                    'school_name',
+                    [
+                        'label' => '联考省份',
+                        'attribute' => 'unitedExamProvinces.name'
+                    ],
+                    'fine_art_instructor',
+                    'exam_participant_number',
+                    'sketch_score',
+                    'color_score',
+                    'quick_sketch_score',
+                    'design_score',
+                    'verbal_score',
+                    'math_score',
+                    'english_score',
+                    'total_score',
+                    'pre_school_assessment:ntext',
+                    [
+                        'attribute' => 'is_graduation',
+                        'value' => User::getValues('is_graduation', $model->is_graduation)
+                    ],
+                    'graduation_at',
+                    'note:ntext',
+                    'auth_key',
+                    'password_hash',
+                    'password_reset_token',
+                    'device_token',
+                    'access_token',
+                    [
+                        'label' => '创建者',
+                        'attribute' => 'admins.name',
+                    ],
+                    'created_at:datetime',
+                    'updated_at:datetime',
+                    [
+                        'attribute' => 'is_all_visible',
+                        'value' => User::getValues('is_all_visible', $model->is_all_visible)
+                    ],
+                    [
+                        'attribute' => 'is_review',
+                        'value' => User::getValues('is_review', $model->is_review)
+                    ],
+                    // 'status',
+                ],
+            ]) ?>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

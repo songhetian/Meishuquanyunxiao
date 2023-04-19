@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>404</title>
+  <meta name="keywords" content="美术宝" >
+  <meta name="description" content="美术宝" >
+  <link rel="shortcut icon" href="http://mobile.meishubao.com/images/favicon.ico" type="image/x-icon" >
+  <link rel="stylesheet" href="http://mobile.meishubao.com/css/page404.css">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <!-- html5.js for IE less than 9 -->
+  <!--[if lt IE 9]>
+      <script src="http://mobile.meishubao.com/js/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="page404">
+    <div class="pic">
+      <img src="http://mobile.meishubao.com/images/img404.png" alt="美术宝">
+    </div>
+    <div class="return">
+      <a href="javascript:;" class="logo">
+        <img src="http://mobile.meishubao.com/images/logo404.png" alt="美术宝">
+      </a>
+      <a href="//wap.meishubao.com" class="return-index">返回首页</a>
+    </div>
+  </div>
+
+</body>
+</html>
